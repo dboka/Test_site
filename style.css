@@ -1,0 +1,292 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+/* ===== Karte ===== */
+#map {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+/* ===== Galvene ===== */
+.title-bar {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 12px 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  text-align: center;
+  z-index: 999;
+  backdrop-filter: blur(6px);
+}
+
+.title-bar h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2b3d24;
+}
+
+.subtitle {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* ===== Paneļu kopīgais stils ===== */
+.panel {
+  background: rgba(255,255,255,0.96);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  padding: 18px;
+  backdrop-filter: blur(6px);
+}
+
+/* ===== Sānu panelis ===== */
+.sidebar {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  width: 260px;
+  z-index: 999;
+  overflow-y: auto;
+  max-height: calc(100% - 120px);
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  padding: 16px;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #2e7d32;
+}
+
+.layer-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.layer-item input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.1);
+}
+
+.layer-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn {
+  flex: 1;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.btn.primary {
+  background-color: #43a047;
+  color: white;
+}
+.btn.primary:hover {
+  background-color: #388e3c;
+}
+
+.btn.danger {
+  background-color: #e53935;
+  color: white;
+}
+.btn.danger:hover {
+  background-color: #c62828;
+}
+
+/* Scrollbar */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(46, 125, 50, 0.5);
+  border-radius: 3px;
+}
+
+/* ===== Logotipu josla ===== */
+.brand-overlay {
+  position: absolute;
+  bottom: 12px;
+  left: 15px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 6px 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.brand-overlay .logos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand-overlay img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ===== Enerģijas izvēlne ===== */
+.energy-switch {
+  position: absolute;
+  bottom: 90px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 220px;
+}
+
+.energy-switch label {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2b3d24;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(6px);
+}
+.energy-switch label:hover {
+  background: rgba(235, 244, 237, 0.96);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.energy-switch input[type="radio"] {
+  transform: scale(1.2);
+}
+
+/* Aktīvais */
+.energy-switch input[type="radio"]:checked + span {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+/* =====================================================
+   🌐 RESPONSIVE DESIGN
+===================================================== */
+
+/* === Planšetes === */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+    right: 10px;
+    font-size: 0.85rem;
+  }
+  .title-bar {
+    width: 90%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
+
+/* === Telefoni (vertikāli) === */
+@media (max-width: 700px) {
+  body {
+    overflow: hidden;
+  }
+
+  .title-bar {
+    top: 10px;
+    width: 92%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+  }
+
+  /* slāņu panelis kļūst par apakšējo modāli */
+  .sidebar {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 45%;
+    max-height: 50%;
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    padding: 12px 18px;
+    overflow-y: auto;
+  }
+
+  .sidebar h3 {
+    font-size: 1rem;
+    text-align: center;
+    color: #1b5e20;
+  }
+
+  /* enerģijas slēdži horizontāli */
+  .energy-switch {
+    flex-direction: row;
+    bottom: 55%;
+    right: auto;
+    left: 10px;
+    width: calc(100% - 20px);
+    overflow-x: auto;
+    gap: 6px;
+    padding-bottom: 8px;
+  }
+
+  .energy-switch label {
+    flex: 1 0 auto;
+    white-space: nowrap;
+    min-width: 120px;
+    justify-content: center;
+    font-size: 0.85rem;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  }
+
+  /* logotipi samazināti */
+  .brand-overlay {
+    bottom: 10px;
+    left: 10px;
+    padding: 4px 8px;
+  }
+  .brand-overlay img {
+    height: 28px;
+  }
+
+  .layer-buttons {
+    gap: 6px;
+  }
+  .btn {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+}
