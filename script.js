@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { file: "geojson/VMD_mezi_optimizeti_FAST.geojson.gz", color: "#d6cb3f", name: "Inventarizētie meži (VMD)", pane: "bottom" },
     { file: "geojson/DAP IADT ainavas_optimized_dissolved.geojson", color: "#f6d743", name: "Ainavu aizsardzības zonējumi (DAP)", pane: "bottom" },
     { file: "geojson/DAP Aizsargajamie koki_optimized_dissolved.geojson", color: "#f4e04d", name: "Aizsargājamie koki (DAP)", pane: "bottom" },
-    { file: "geojson/DAP sugu atradnes_optimized_dissolved.geojson", color: "#ecff7d", name: "Sugu atradnes (DAP)", pane: "bottom" },
+    { file: "geojson/DAP Sugu atradnes_optimized_dissolved.geojson", color: "#ecff7d", name: "Sugu atradnes (DAP)", pane: "bottom" },
     { file: "geojson/DAP_Ipasi_aizsargajamie_biotopi_FAST.geojson", color: "#e65100", name: "Īpaši aizsargājamie biotopi (DAP)", pane: "middle-top" },
     { file: "geojson/DAP potencialas natura 2000 teritorijas_optimized_dissolved.geojson", color: "#ff8f00", name: "Natura 2000 teritorijas (DAP)", pane: "middle" },
     { file: "geojson/DAP Nacionalas ainavu telpas_optimized_dissolved.geojson", color: "#ffb74a", name: "Nacionālās ainavu telpas (DAP)", pane: "middle" },
