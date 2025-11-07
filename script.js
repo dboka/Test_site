@@ -62,19 +62,19 @@ document.addEventListener("DOMContentLoaded", () => {
   //  PAMATSLĀŅI
   // =====================================================
   const layers = [
-    { file: "geojson/VVD Atkritumu poligoni_optimized_dissolved.geojson", color: "#2e7d32", name: "Atkritumu poligoni (VVD)", pane: "bottom" },
-    { file: "geojson/VVD Piesarnotas vietas_optimized_dissolved.geojson", color: "#e0b200", name: "Piesārņotās vietas (VVD)", pane: "bottom" },
-    { file: "geojson/VVD Potenciali piesarnotas vietas_optimized_dissolved.geojson", color: "#fff263", name: "Potenciāli piesārņotās vietas (VVD)", pane: "bottom" },
+    { file: "geojson/VVD_Atkritumu_poligoni_optimized_dissolved.geojson", color: "#2e7d32", name: "Atkritumu poligoni (VVD)", pane: "bottom" },
+    { file: "geojson/VVD_Piesarnotas_vietas_optimized_dissolved.geojson", color: "#e0b200", name: "Piesārņotās vietas (VVD)", pane: "bottom" },
+    { file: "geojson/VVD_Potenciali_piesarnotas vietas_optimized_dissolved.geojson", color: "#fff263", name: "Potenciāli piesārņotās vietas (VVD)", pane: "bottom" },
     { file: "geojson/VMD_mezi_optimizeti_FAST.geojson.gz", color: "#d6cb3f", name: "Inventarizētie meži (VMD)", pane: "bottom" },
-    { file: "geojson/DAP IADT ainavas_optimized_dissolved.geojson", color: "#f6d743", name: "Ainavu aizsardzības zonējumi (DAP)", pane: "bottom" },
-    { file: "geojson/DAP Aizsargajamie koki_optimized_dissolved.geojson", color: "#f4e04d", name: "Aizsargājamie koki (DAP)", pane: "bottom" },
-    { file: "geojson/DAP Sugu atradnes_optimized_dissolved.geojson", color: "#ecff7d", name: "Sugu atradnes (DAP)", pane: "bottom" },
+    { file: "geojson/DAP_IADT_ainavas_optimized_dissolved.geojson", color: "#f6d743", name: "Ainavu aizsardzības zonējumi (DAP)", pane: "bottom" },
+    { file: "geojson/DAP_Aizsargajamie_koki_optimized_dissolved.geojson", color: "#f4e04d", name: "Aizsargājamie koki (DAP)", pane: "bottom" },
+    { file: "geojson/DAP_Sugu_atradnes_optimized_dissolved.geojson", color: "#ecff7d", name: "Sugu atradnes (DAP)", pane: "bottom" },
     { file: "geojson/DAP_Ipasi_aizsargajamie_biotopi_FAST.geojson", color: "#e65100", name: "Īpaši aizsargājamie biotopi (DAP)", pane: "middle-top" },
-    { file: "geojson/DAP potencialas natura 2000 teritorijas_optimized_dissolved.geojson", color: "#ff8f00", name: "Natura 2000 teritorijas (DAP)", pane: "middle" },
-    { file: "geojson/DAP Nacionalas ainavu telpas_optimized_dissolved.geojson", color: "#ffb74a", name: "Nacionālās ainavu telpas (DAP)", pane: "middle" },
-    { file: "geojson/DAP mikroliegumi un buferzonas_optimized_dissolved.geojson", color: "#1565c0", name: "Mikroliegumi un buferzonas (DAP)", pane: "top" },
-    { file: "geojson/DAP IADT dabas pieminekli_optimized_dissolved.geojson", color: "#2196f3", name: "Dabas pieminekļi (DAP)", pane: "top" },
-    { file: "geojson/Īpaši aizsargājamas dabas teritorijas (zonējums nav vērts union)_optimized_dissolved.geojson", color: "#0d47a1", name: "ĪADT (zonējums, pilns) (DAP)", pane: "top" }
+    { file: "geojson/DAP_potencialas_natura_2000_teritorijas_optimized_dissolved.geojson", color: "#ff8f00", name: "Natura 2000 teritorijas (DAP)", pane: "middle" },
+    { file: "geojson/DAP_Nacionalas_ainavu_telpas_optimized_dissolved.geojson", color: "#ffb74a", name: "Nacionālās ainavu telpas (DAP)", pane: "middle" },
+    { file: "geojson/DAP_mikroliegumi_un_buferzonas_optimized_dissolved.geojson", color: "#1565c0", name: "Mikroliegumi un buferzonas (DAP)", pane: "top" },
+    { file: "geojson/DAP_IADT_dabas_pieminekli_optimized_dissolved.geojson", color: "#2196f3", name: "Dabas pieminekļi (DAP)", pane: "top" },
+    { file: "geojson/Ipasi_aizsargajamas_dabas_teritorijas_zonejums _nav_verts_union_optimized_dissolved.geojson", color: "#0d47a1", name: "ĪADT (zonējums, pilns) (DAP)", pane: "top" }
   ];
 
   const biomassLayerInfo = {
