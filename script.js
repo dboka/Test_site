@@ -33,25 +33,24 @@ document.addEventListener("DOMContentLoaded", () => {
   map.createPane("top-blue");   map.getPane("top-blue").style.zIndex = 520;
 
   // Pamatkarte
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 16,
-    minZoom: 6,
-    updateWhenIdle: true,
-    updateWhenZooming: false,
-    keepBuffer: 3,
-    attribution: "&copy; OpenStreetMap"
-  }).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap & CartoDB',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
 
   // Latvijas robežas
-  fetch("geojson/robeza.geojson")
-    .then(res => res.json())
-    .then(geojson => {
+  fetch("geojson/robeza.geojson.gz")
+    .then(res => res.arrayBuffer())
+    .then(buf => {
+      const text = pako.inflate(buf, { to: "string" });
+      const geojson = JSON.parse(text);
       L.geoJSON(geojson, {
         pane: "background",
         interactive: false,
         style: {
-          fillColor: "#66bb6a",
-          fillOpacity: 0.4,
+          fillColor: "#459349ff",
+          fillOpacity: 1,
           color: "#2e7d32",
           weight: 1
         }
@@ -62,30 +61,30 @@ document.addEventListener("DOMContentLoaded", () => {
   //  PAMATSLĀŅI
   // =====================================================
   const layers = [
-    { file: "geojson/VVD_Atkritumu_poligoni_optimized_dissolved.geojson", color: "#2e7d32", name: "Atkritumu poligoni (VVD)", pane: "bottom" },
-    { file: "geojson/VVD_Piesarnotas_vietas_optimized_dissolved.geojson", color: "#e0b200", name: "Piesārņotās vietas (VVD)", pane: "bottom" },
-    { file: "geojson/VVD_Potenciali_piesarnotas vietas_optimized_dissolved.geojson", color: "#fff263", name: "Potenciāli piesārņotās vietas (VVD)", pane: "bottom" },
-    { file: "geojson/VMD_mezi_optimizeti_FAST.geojson.gz", color: "#d6cb3f", name: "Inventarizētie meži (VMD)", pane: "bottom" },
-    { file: "geojson/DAP_IADT_ainavas_optimized_dissolved.geojson", color: "#f6d743", name: "Ainavu aizsardzības zonējumi (DAP)", pane: "bottom" },
-    { file: "geojson/DAP_Aizsargajamie_koki_optimized_dissolved.geojson", color: "#f4e04d", name: "Aizsargājamie koki (DAP)", pane: "bottom" },
-    { file: "geojson/DAP_Sugu_atradnes_optimized_dissolved.geojson", color: "#ecff7d", name: "Sugu atradnes (DAP)", pane: "bottom" },
-    { file: "geojson/DAP_Ipasi_aizsargajamie_biotopi_FAST.geojson", color: "#e65100", name: "Īpaši aizsargājamie biotopi (DAP)", pane: "middle-top" },
-    { file: "geojson/DAP_potencialas_natura_2000_teritorijas_optimized_dissolved.geojson", color: "#ff8f00", name: "Natura 2000 teritorijas (DAP)", pane: "middle" },
-    { file: "geojson/DAP_Nacionalas_ainavu_telpas_optimized_dissolved.geojson", color: "#ffb74a", name: "Nacionālās ainavu telpas (DAP)", pane: "middle" },
-    { file: "geojson/DAP_mikroliegumi_un_buferzonas_optimized_dissolved.geojson", color: "#1565c0", name: "Mikroliegumi un buferzonas (DAP)", pane: "top" },
-    { file: "geojson/DAP_IADT_dabas_pieminekli_optimized_dissolved.geojson", color: "#2196f3", name: "Dabas pieminekļi (DAP)", pane: "top" },
-    { file: "geojson/Ipasi_aizsargajamas_dabas_teritorijas_zonejums _nav_verts_union_optimized_dissolved.geojson", color: "#0d47a1", name: "ĪADT (zonējums, pilns) (DAP)", pane: "top" }
+    { file: "geojson/VVD_Atkritumu_poligoni_optimized_dissolved.geojson.gz", color: "#2e7d32", name: "Atkritumu poligoni (VVD)", pane: "bottom" },
+    { file: "geojson/VVD_Piesarnotas_vietas_optimized_dissolved.geojson.gz", color: "#e0b200", name: "Piesārņotās vietas (VVD)", pane: "bottom" },
+    { file: "geojson/VVD_Potenciali_piesarnotas vietas_optimized_dissolved.geojson.gz", color: "#fff263", name: "Potenciāli piesārņotās vietas (VVD)", pane: "bottom" },
+    { file: "geojson/VMD_mezi_optimizeti_FAST.geojson.gz", color: "#f7f19fff", name: "Inventarizētie meži (VMD)", pane: "bottom" },
+    { file: "geojson/DAP_IADT_ainavas_optimized_dissolved.geojson.gz", color: "#f6d743", name: "Ainavu aizsardzības zonējumi (DAP)", pane: "bottom" },
+    { file: "geojson/DAP_Aizsargajamie_koki_optimized_dissolved.geojson.gz", color: "#f4e04d", name: "Aizsargājamie koki (DAP)", pane: "bottom" },
+    { file: "geojson/DAP_Sugu_atradnes_optimized_dissolved.geojson.gz", color: "#ecff7d", name: "Sugu atradnes (DAP)", pane: "bottom" },
+    { file: "geojson/DAP_Ipasi_aizsargajamie_biotopi_FAST.geojson.gz", color: "#c68126ff", name: "Īpaši aizsargājamie biotopi (DAP)", pane: "middle-top" },
+    { file: "geojson/DAP_potencialas_natura_2000_teritorijas_optimized_dissolved.geojson.gz", color: "#ff8f00", name: "Natura 2000 teritorijas (DAP)", pane: "middle" },
+    { file: "geojson/DAP_Nacionalas_ainavu_telpas_optimized_dissolved.geojson.gz", color: "#ffb74a", name: "Nacionālās ainavu telpas (DAP)", pane: "middle" },
+    { file: "geojson/DAP_mikroliegumi_un_buferzonas_optimized_dissolved.geojson.gz", color: "#1565c0", name: "Mikroliegumi un buferzonas (DAP)", pane: "top" },
+    { file: "geojson/DAP_IADT_dabas_pieminekli_optimized_dissolved.geojson.gz", color: "#2196f3", name: "Dabas pieminekļi (DAP)", pane: "top" },
+    { file: "geojson/Ipasi_aizsargajamas_dabas_teritorijas_zonejums _nav_verts_union_optimized_dissolved.geojson.gz", color: "#0d47a1", name: "ĪADT (zonējums, pilns) (DAP)", pane: "top" }
   ];
 
   const biomassLayerInfo = {
-    file: "geojson/CSP_BAT_dati_pilsetas_optimized.geojson",
+    file: "geojson/CSP_BAT_dati_pilsetas_optimized.geojson.gz",
     color: "#ff8f00",
     name: "BAT dati pilsētās (CSP - Biomasa)",
     pane: "middle-top"
   };
 
   const blueCspLayerInfo = {
-    file: "geojson/CSP_BAT_dati_pilsetas_optimized.geojson",
+    file: "geojson/CSP_BAT_dati_pilsetas_optimized.geojson.gz",
     color: "#1e88e5",
     name: "BAT dati pilsētās (CSP - Vējš līdz 2028.g.)",
     pane: "top-blue"
@@ -115,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sliced: {
           fill: true,
           fillColor: layer.color,
-          fillOpacity: 0.7,
+          fillOpacity: 1,
           stroke: false
         }
       },
@@ -157,14 +156,14 @@ document.addEventListener("DOMContentLoaded", () => {
   //  RADARI
   // =====================================================
   const lvgmcRadarGroup = [
-    { file: "geojson/LVGMC Radars YELLOW LEVEL_optimized_dissolved.geojson", color: "#fdd835", name: "LVGMC Radars YELLOW", pane: "middle" },
-    { file: "geojson/LVGMC Radars ORANGE level_optimized_dissolved.geojson", color: "#ff9800", name: "LVGMC Radars ORANGE", pane: "middle-top" },
-    { file: "geojson/LVGMC Radars BLUE level_optimized_dissolved.geojson", color: "#1565c0", name: "LVGMC Radars BLUE", pane: "top-blue" }
+    { file: "geojson/LVGMC Radars YELLOW LEVEL_optimized_dissolved.geojson.gz", color: "#fdd835", name: "LVGMC Radars YELLOW", pane: "middle" },
+    { file: "geojson/LVGMC Radars ORANGE level_optimized_dissolved.geojson.gz", color: "#ff9800", name: "LVGMC Radars ORANGE", pane: "middle-top" },
+    { file: "geojson/LVGMC Radars BLUE level_optimized_dissolved.geojson.gz", color: "#1565c0", name: "LVGMC Radars BLUE", pane: "top-blue" }
   ];
 
   const amRadarGroup = [
-    { file: "geojson/AM Radars YELLOW level spēkā līdz 2028. gadam;_optimized_dissolved.geojson", color: "#ffee58", name: "AM Radars YELLOW", pane: "middle" },
-    { file: "geojson/AM Radars  BLUE level spēkā līdz 2028. gadam;_optimized_dissolved.geojson", color: "#1e88e5", name: "AM Radars BLUE", pane: "top-blue" }
+    { file: "geojson/AM Radars YELLOW level spēkā līdz 2028. gadam;_optimized_dissolved.geojson.gz", color: "#ffee58", name: "AM Radars YELLOW", pane: "middle" },
+    { file: "geojson/AM Radars  BLUE level spēkā līdz 2028. gadam;_optimized_dissolved.geojson.gz", color: "#1e88e5", name: "AM Radars BLUE", pane: "top-blue" }
   ];
 
   async function loadGroup(group) {
@@ -220,7 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
   //  REŽĪMI
   // =====================================================
   async function applyEnergyMode(mode) {
-    // vienmēr ielādē pamatslāņus
     for (const base of layers) {
       if (!base.vLayer) {
         const vLayer = await loadVectorLayer(base);

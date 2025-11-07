@@ -1,53 +1,82 @@
 import geopandas as gpd
 import os
 import gzip
+import shutil
+import json
 
-# ====== Folder Path ======
+# =====================================================
+# 📂 CONFIGURATION
+# =====================================================
 input_folder = r"C:\Users\deniss.boka\QGIS APSTRADE\DATA-AUTOMATISATION-QGIS\industry_riks\geojson"
+simplify_tolerance = 0.00002    # visually safe simplification
+decimal_precision = 6           # 6 decimals ≈ 10 cm precision
+preserve_topology = True
 
-# ====== Settings ======
-coordinate_precision = 6   # reduces text size, but keeps geometry identical up to 10 cm precision
-fields_to_keep = ["name", "Name", "NAME", "type", "Type", "TYPE"]  # keep only meaningful fields
+# =====================================================
+# ⚙️ GZIP FUNCTION
+# =====================================================
+def gzip_file(src_path, dst_path):
+    with open(src_path, 'rb') as f_in:
+        with gzip.open(dst_path, 'wb', compresslevel=9) as f_out:
+            shutil.copyfileobj(f_in, f_out)
 
-# ====== Start Processing ======
+# =====================================================
+# 🧩 RECURSIVE COORDINATE ROUNDER
+# =====================================================
+def round_coords(coords):
+    if isinstance(coords, (float, int)):
+        return round(coords, decimal_precision)
+    if isinstance(coords, (list, tuple)):
+        return [round_coords(c) for c in coords]
+    return coords
+
+# =====================================================
+# 🚀 PROCESS ALL GEOJSON FILES
+# =====================================================
 for file in os.listdir(input_folder):
-    if not file.lower().endswith(".geojson"):
-        continue
+    if file.lower().endswith(".geojson"):
+        path = os.path.join(input_folder, file)
+        print(f"📥 Processing: {file}")
 
-    input_path = os.path.join(input_folder, file)
-    optimized_path = input_path.replace(".geojson", "_optimized.geojson")
-    gz_path = optimized_path + ".gz"
+        try:
+            # Load GeoJSON
+            gdf = gpd.read_file(path)
 
-    try:
-        print(f"📦 Processing: {file}")
+            # Simplify (no visible geometry loss)
+            gdf["geometry"] = gdf["geometry"].simplify(
+                tolerance=simplify_tolerance,
+                preserve_topology=preserve_topology
+            )
 
-        # --- Load the GeoJSON ---
-        gdf = gpd.read_file(input_path)
+            # Fix: convert datetime/Timestamp fields → string
+            for col in gdf.columns:
+                if gdf[col].dtype.name.startswith("datetime") or "Timestamp" in str(gdf[col].dtype):
+                    gdf[col] = gdf[col].astype(str)
 
-        # --- Keep only relevant columns (geometry + name/type) ---
-        gdf = gdf[[c for c in gdf.columns if c in fields_to_keep or c == "geometry"]]
+            # Convert GeoDataFrame → JSON dict
+            tmp_json = json.loads(gdf.to_json())
 
-        # --- Round coordinates slightly to shrink file size ---
-        gdf["geometry"] = gdf["geometry"].apply(
-            lambda geom: geom if geom.is_empty else geom.round(coordinate_precision)
-            if hasattr(geom, "round") else geom
-        )
+            # Round geometry coordinates
+            for feat in tmp_json["features"]:
+                geom = feat.get("geometry")
+                if geom and "coordinates" in geom:
+                    geom["coordinates"] = round_coords(geom["coordinates"])
 
-        # --- Save temporarily optimized GeoJSON ---
-        gdf.to_file(optimized_path, driver="GeoJSON")
+            # Write optimized GeoJSON (overwrite)
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(tmp_json, f, ensure_ascii=False)
 
-        # --- Compress to GZIP ---
-        with open(optimized_path, "rb") as f_in:
-            with gzip.open(gz_path, "wb", compresslevel=9) as f_out:
-                f_out.writelines(f_in)
+            # Compress with gzip
+            gz_path = path + ".gz"
+            gzip_file(path, gz_path)
 
-        # --- Remove both original and temporary file ---
-        os.remove(input_path)
-        os.remove(optimized_path)
+            orig_size = os.path.getsize(path) / 1024
+            gz_size = os.path.getsize(gz_path) / 1024
+            print(f"✅ {file}: {orig_size:.1f} KB → {gz_size:.1f} KB (GZ compressed)\n")
 
-        print(f"✅ Saved & compressed: {os.path.basename(gz_path)}")
+        except Exception as e:
+            print(f"❌ Error processing {file}: {e}\n")
 
-    except Exception as e:
-        print(f"❌ Error in {file}: {e}")
+print("🎯 All GeoJSONs optimized and gzipped successfully!")
 
-print("\n🎯 Done! All GeoJSON files minimized, converted to .gz, and originals removed.")
+
